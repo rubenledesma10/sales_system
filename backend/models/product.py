@@ -4,9 +4,9 @@ class Product(db.Model):
     __tablename__= 'product'
 
     id_product=db.Column(db.Integer, primary_key=True)
-    name=db.Column(db.String(50),nullnable=False)
-    current_price=db.Column(db.Float, nullnable=False)
-    stock=db.Column(db.Integer, nullnable=0)
+    name=db.Column(db.String(50),nullable=False)
+    current_price=db.Column(db.Float, nullable=False)
+    stock=db.Column(db.Integer, nullable=0)
     supplier_id=db.Column(db.Integer,db.ForeignKey('suppliers.idSupplier'))
     category_id=db.Column(db.Integer,db.ForeignKey('category.idCategory'))
 
