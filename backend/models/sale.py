@@ -6,7 +6,7 @@ class Sale(db.Model):
     id_sale = db.column(db.Integer, primary_key = True)
     sale_date = db.column(db.Date, nullable = False)
     discount = db.column(db.Float, nullable = False)
-    final_amount = db.column(db.Float, nullable = False)
+    final_amount = db.column(db.Float, nullable = True)
     id_client = db.column(db.Integer, db.ForeignKey('client.id_client'))
     
     client = db.relationship("Client", backref=db.backref("sales", lazy=True))
