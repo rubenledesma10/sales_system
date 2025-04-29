@@ -7,8 +7,10 @@ class Supplier(db.Model):
     name = db.Column(db.String(50),nullable = False)
     address = db.Column(db.String(50),nullable = False)
     phone = db.Column(db.String(50), unique=True,nullable = False)
-    web_page = db.Column(db.String(20), nullable =)
+    web_page = db.Column(db.String(20), nullable = False)
     rut = db.Column(db.String(20), unique = True,nullable = False)
+
+    products = db.relationship('Product', backref=db.backref('supplier', lazy=True))
 
     def __init__(self,name,address,phone,web_page,rut):
         self.name = name

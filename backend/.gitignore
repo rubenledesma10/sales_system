@@ -5,4 +5,4 @@ venv/
 __pycache__/   
 **/_pycache_/ 
 backend/system-sales/
-backend/system_sales/
+backend/supplier/
