@@ -20,7 +20,8 @@ class Sale(db.Model):
         return f"<Sale(id_sale={self.id_sale}, sale_date={self.sale_date}, client_id={self.id_client})>"
 
     def serialize (self):
-        return {
+        return
+        {
             'id_sale': self.id_sale,
             'sale_date': self.sale_date.strftime(%d%m%Y), #Asi formateamos y detallamos la fecha con el anio,el horario y el mes.
             'discount': self.discount,
