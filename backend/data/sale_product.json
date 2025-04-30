@@ -1,0 +1,72 @@
+[
+    {
+        "subtotal": 500.00,
+        "quantity": 5,
+        "sould_price": 100.00,
+        "product_id": 1,
+        "sale_id": 1
+    },
+    {
+        "subtotal": 320.00,
+        "quantity": 4,
+        "sould_price": 80.00,
+        "product_id": 2,
+        "sale_id": 1
+    },
+    {
+        "subtotal": 600.00,
+        "quantity": 6,
+        "sould_price": 100.00,
+        "product_id": 3,
+        "sale_id": 2
+    },
+    {
+        "subtotal": 800.00,
+        "quantity": 8,
+        "sould_price": 100.00,
+        "product_id": 4,
+        "sale_id": 2
+    },
+    {
+        "subtotal": 1500.00,
+        "quantity": 10,
+        "sould_price": 150.00,
+        "product_id": 5,
+        "sale_id": 3
+    },
+    {
+        "subtotal": 250.00,
+        "quantity": 5,
+        "sould_price": 50.00,
+        "product_id": 6,
+        "sale_id": 3
+    },
+    {
+        "subtotal": 400.00,
+        "quantity": 4,
+        "sould_price": 100.00,
+        "product_id": 7,
+        "sale_id": 4
+    },
+    {
+        "subtotal": 1200.00,
+        "quantity": 6,
+        "sould_price": 200.00,
+        "product_id": 8,
+        "sale_id": 4
+    },
+    {
+        "subtotal": 480.00,
+        "quantity": 4,
+        "sould_price": 120.00,
+        "product_id": 9,
+        "sale_id": 5
+    },
+    {
+        "subtotal": 900.00,
+        "quantity": 3,
+        "sould_price": 300.00,
+        "product_id": 10,
+        "sale_id": 5
+    }
+]
