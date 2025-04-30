@@ -1,0 +1,31 @@
+from models.db import db
+
+class Client (db.Model):
+    __tablename__= "client"
+    
+    id_client= db.column(db.Integer, primary_key= True)
+    name=db.column(db.String(50), nullable = False)
+    rut = db.column(db.String(50), nullable = False)
+    street_address=db.column(db.String (50), nullable = False)
+    number_address=db.column(db.String(50), nullable = False)
+    district_address=db.column(db.String(50), nullable = False)
+    city_address = db.column(db.String(50),nullable = False )
+    
+    def __init__(self,name,rut,street_address,number_address,district_address,city_address):
+        self.name = name
+        self.rut = rut
+        self.street_address = street_address
+        self.number_address = number_address
+        self.district_address = district_address
+        self.city_address = city_address
+    
+    def serialize (self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'rut': self.rut,
+            'street_address': self.street_address,
+            'number_address': self.number_address,
+            'district_address': self.district_address,
+            'city_address': self.city_address
+        }
