@@ -1,8 +1,8 @@
-.env           
-.vscode/ 
-.venv/         
-venv/          
-__pycache__/   
+.env         
+.vscode/       
+.venv/        
+venv/         
+_pycache_/ 
 **/_pycache_/ 
-backend/system-sales/
-backend/supplier/
+backend/sales-system/  
+backend/sistema_ventas/ 
