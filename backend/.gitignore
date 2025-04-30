@@ -1,8 +1,10 @@
-.env           # Ignora archivos de variables de entorno
-.vscode/       # Ignora configuraciones locales de VS Code
-.venv/         # Ignora venvs llamados .venv en la raíz
-venv/          # Ignora venvs llamados venv en la raíz
-_pycache_/   # Ignora pycache en la raíz
-**/_pycache_/ # Ignora pycache en cualquier subcarpeta
-backend/sales-system/  # Ignora tu venv personalizado en backend
-backend/sales/
+.env         
+.vscode/       
+.venv/        
+venv/         
+_pycache_/ 
+**/_pycache_/ 
+backend/sales-system/  
+backend/sistema_ventas/ 
+
+
