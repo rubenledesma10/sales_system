@@ -23,7 +23,7 @@ class Sale(db.Model):
         return
         {
             'id_sale': self.id_sale,
-            'sale_date': self.sale_date.strftime(%d%m%Y), #Asi formateamos y detallamos la fecha con el anio,el horario y el mes.
+            'sale_date': self.sale_date.strftime('%d%m%Y'), #Asi formateamos y detallamos la fecha con el anio,el horario y el mes.
             'discount': self.discount,
             'final_amount': self.final_amount,
             'id_client': self.id_client
