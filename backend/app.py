@@ -12,6 +12,9 @@ db.init_app(app)
 with app.app_context():
     from models.product import Product
     from models.sale_product import SaleProduct
+    from models.db import db
+    from models.sale import Sale
+    from datetime import datetime
     db.create_all()
 
 if __name__=='__main__':
