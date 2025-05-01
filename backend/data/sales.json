@@ -1,0 +1,11 @@
+[
+  { "sale_date": "2025-05-01", "discount": 0.10, "final_amount": 575.99, "id_client": 1 },
+  { "sale_date": "2025-04-28", "discount": 0.05, "final_amount": 118.75, "id_client": 2 },
+  { "sale_date": "2025-04-25", "discount": 0.07, "final_amount": 30.00, "id_client": 3 }
+]
+
+
+
+
+
+  
