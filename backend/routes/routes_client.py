@@ -3,6 +3,7 @@ from flask import Blueprint, jsonify, request
 from models.db import db
 from models.phone import Phone
 from models.client import Client
+from models.sale import Sale 
 
 client = Blueprint('client', __name__)
 
@@ -93,7 +94,7 @@ def edit_client(id):
     if not data:
         return jsonify({'error': 'No data received'},400)
     
-    client = Client.query.get(id):
+    client = Client.query.get(id)
     if not client:
         return jsonify({'message': 'client not found'}), 404
     
