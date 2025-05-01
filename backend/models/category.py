@@ -1,6 +1,6 @@
 from models.db import db
 
-class category(db.model):
+class Category(db.Model):
     __tablename__='category' 
     id_category = db.Column(db.Integer, primary_key=True ) 
     name = db.Column(db.String(50), nullable = False)

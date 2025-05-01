@@ -6,11 +6,9 @@ class Product(db.Model):
     id_product=db.Column(db.Integer, primary_key=True)
     name=db.Column(db.String(50),nullable=False)
     current_price=db.Column(db.Float, nullable=False)
-    stock=db.Column(db.Integer, nullable=0)
-    #supplier_id=db.Column(db.Integer,db.ForeignKey('suppliers.idSupplier'))
-    #category_id=db.Column(db.Integer,db.ForeignKey('category.idCategory'))
-    supplier_id=db.Column(db.Integer)
-    category_id=db.Column(db.Integer)
+    stock=db.Column(db.Integer, nullable=False)
+    supplier_id=db.Column(db.Integer,db.ForeignKey('supplier.id_supplier'))
+    category_id=db.Column(db.Integer,db.ForeignKey('category.id_category'))
 
     def __init__(self, name, current_price, stock, supplier_id, category_id):
         self.name=name
