@@ -4,7 +4,7 @@ from models.db import db
 from models.sale import Sale
 from models.sale_product import SaleProduct
 from models.client import Client #We need to associate the customer model with the sale
-from datetime import datetime, date  # Importa también 'date' si lo usas en tus modelos
+from datetime import datetime  # Importa también 'date' si lo usas en tus modelos
 
 sale_bp = Blueprint('sale', __name__)
 
