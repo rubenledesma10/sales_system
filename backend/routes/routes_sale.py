@@ -73,7 +73,7 @@ def delete_sale (id):
     if not  sale:
         return jsonify ({'message': 'Sale not found'}), 404
     try:
-        db.session.delete(car)  
+        db.session.delete(sale)  
         db.session.commit()
         return jsonify({'message':'Sale delete successfully'}),200
     except Exception as e:
