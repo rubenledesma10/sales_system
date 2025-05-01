@@ -115,7 +115,7 @@ def update_sale_product(id_sale_product):
         if 'sale_id' in data:
             sale_product.sale_id=data['sale_id']
             db.session.commit()
-        return jsonify({'message':'Product update correctly','product':product.serialize()}),200
+        return jsonify({'message':'Sale product update correctly','product':sale_product.serialize()}),200
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
