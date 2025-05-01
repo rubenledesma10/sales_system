@@ -63,4 +63,4 @@ def create_sale():
         return jsonify({'message': 'Error de integridad en la base de datos'}), 400
     except Exception as e:
         db.session.rollback()
-        return jsonify({'message': f'Error al crear la venta: {str(e)}'}), 500
+        return jsonify({'message': f'Error al crear la venta: {str(e)}'}),500
