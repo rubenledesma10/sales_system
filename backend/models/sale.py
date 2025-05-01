@@ -1,4 +1,4 @@
-from models.db import db 
+from models.db import db
 
 class Sale(db.Model): 
     __tablename__ ='sale'
@@ -10,6 +10,7 @@ class Sale(db.Model):
     id_client = db.column(db.Integer, db.ForeignKey('client.id_client'))
     
     client = db.relationship("Client", backref=db.backref("sales", lazy=True))
+    sale_product =db.relationship('sale_product',backref='sale_product', lazy=True)
     
     def __init__(self,sale_date,discount,final_amount):
         self.sale_date = sale_date
@@ -23,7 +24,7 @@ class Sale(db.Model):
         return
         {
             'id_sale': self.id_sale,
-            'sale_date': self.sale_date.strftime(%d%m%Y), #Asi formateamos y detallamos la fecha con el anio,el horario y el mes.
+            'sale_date': self.sale_date.strftime('%d%m%Y') #Asi formateamos y detallamos la fecha con el anio,el horario y el mes.
             'discount': self.discount,
             'final_amount': self.final_amount,
             'id_client': self.id_client
