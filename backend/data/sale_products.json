@@ -1,0 +1,9 @@
+[
+  { "subtotal": 599.99, "quantity": 1, "sold_price": 599.99, "id_product": 1, "id_sale": 1 },
+  { "subtotal": 25.50, "quantity": 2, "sold_price": 25.50, "id_product": 2, "id_sale": 2 },
+  { "subtotal": 30.00, "quantity": 1, "sold_price": 30.00, "id_product": 3, "id_sale": 3 },
+  { "subtotal": 89.99, "quantity": 1, "sold_price": 89.99, "id_product": 4, "id_sale": 1 }
+]
+
+
+  
