@@ -66,16 +66,81 @@ def create_sale():
         db.session.rollback()
         return jsonify({'message': f'Error creating sale: {str(e)}'}), 500
 
-@sale.route('api/delete_sale/<int:id_sale>', methods = 'DELETE')
+@sale.route('/api/delete_sale/<int:id_sale>', methods = 'DELETE')
 
-def delete_sale (id):
-    sale = Sale.query.get(id)
-    if not  sale:
-        return jsonify ({'message': 'Sale not found'}), 404
-    try:
-        db.session.delete(sale)  
+def delete_sale(id):
+    client = Client.query.get(id)
+    if not client:
+        return jsonify({'message': 'sale not found'}), 404
+    
+    try: 
+        db.session.delete(client)
         db.session.commit()
-        return jsonify({'message':'Sale delete successfully'}),200
+        return jsonify ({'message': 'sale delete successfully'}), 200
+    
+    except Exception as e: 
+        db.session.rollback()
+        return jsonify ({'error': str(e)})
+
+@sale_bp.route('/api/Update_sale/<int:sale_id>', methods=['PATCH'])
+def update_sale(sale_id):
+    data = request.get_json()
+    sale = Sale.query.get_or_404(sale_id)
+
+    try:
+        if 'final_amount' in data:
+            #You add the final sale to the sale that is being made
+            sale.final_amount += data['final_amount']
+
+        if 'sale_date' in data:
+            sale_date_str = data['sale_date']
+            try:
+                sale.sale_date = datetime.strptime(sale_date_str, '%d%m%Y').date()
+                # Updates the sale date to the date of the last "sale after sale"
+            except ValueError:
+                return jsonify({'message': 'Incorrect date format for sale_date. Must be ddmmyyyy'}), 400
+
+        db.session.commit()
+        return jsonify({'message': 'Sale updated successfully', 'sale_id': sale.id_sale}), 200
+
     except Exception as e:
         db.session.rollback()
-        return jsonify({'error':str(e)}), 500
+        return jsonify({'message': f'Error updating sale: {str(e)}'}), 500
+
+@sale.route('/api/Update_all_sales/<int:sale_id>', methods=['PUT'])
+def update_sale_put(sale_id):
+
+    data = request.get_json()
+    sale = Sale.query.get_or_404(sale_id)
+
+    try:
+        id_client = data.get('id_client')
+        sale_date_str = data.get('sale_date')
+        discount = data.get('discount')
+        final_amount = data.get('final_amount')
+
+        # Validation of required fields
+        if not id_client or not sale_date_str or discount is None or final_amount is None:
+            return jsonify({'message': 'Missing required fields for sale update'}), 400
+
+        client = Client.query.get_or_404(id_client)
+
+        try:
+            sale_date = datetime.strptime(sale_date_str, '%d%m%Y').date()
+        except ValueError:
+            return jsonify({'message': 'Incorrect date format for sale_date. Must be ddmmyyyy'}), 400
+
+        sale.id_client = id_client
+        sale.sale_date = sale_date
+        sale.discount = discount
+        sale.final_amount = final_amount
+
+        db.session.commit()
+        return jsonify({'message': 'Sale updated successfully (PUT)', 'sale_id': sale.id_sale}), 200
+
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({'message': 'Database integrity error during update'}), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'message': f'Error updating sale (PUT): {str(e)}'}), 500
