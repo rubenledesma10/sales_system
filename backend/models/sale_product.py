@@ -8,8 +8,8 @@ class SaleProduct(db.Model):
     quantity=db.Column(db.Integer, nullable=False)
     sould_price=db.Column(db.Float, nullable=False)
     product_id=db.Column(db.Integer,db.ForeignKey('product.id_product'))
-    #sale_id=db.Column(db.Integer,db.ForeignKey('sale.idSale'))
-    sale_id=db.Column(db.Integer)
+    sale_id=db.Column(db.Integer,db.ForeignKey('sale.id_sale'))
+    
 
     def __init__(self, subtotal, quantity, sould_price, product_id, sale_id):
         self.subtotal=subtotal
