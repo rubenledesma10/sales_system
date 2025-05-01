@@ -8,25 +8,25 @@ from datetime import datetime  # Importa también 'date' si lo usas en tus model
 
 sale_bp = Blueprint('sale', __name__)
 
-@sale_bp.route('/api/sales')#Traemos todas las ventas
+@sale.route('/api/sales')#Traemos todas las ventas
 def get_sales():
     sales = Sale.query.all()
     if not sales:
         return jsonify({'message': 'There are no sales registered'}), 404
     return jsonify([sale.serialize() for sale in sales])
 
-@sale_bp.route('/api/sales/<int:sale_id>', methods=['GET'])
+@sale.route('/api/sales/<int:sale_id>', methods=['GET'])
 def get_sale_id(sale_id):
     sale = Sale.query.get_or_404(sale_id)
     return jsonify(sale.serialize())
 
-@sale_bp.route('/api/clients/<int:client_id>/sales', methods=['GET']) #We access ALL of a customer's sales through their ID
+@sale.route('/api/clients/<int:client_id>/sales', methods=['GET']) #We access ALL of a customer's sales through their ID
 def get_client_sales(client_id):
     client = Client.query.get_or_404(client_id)
     sales = Sale.query.filter_by(id_client=client_id).all()
     return jsonify([sale.serialize() for sale in sales])
 
-@sale_bp.route('/api/add_sale', methods=['POST'])
+@sale.route('/api/add_sale', methods=['POST'])
 def create_sale():
     data = request.get_json()
 
@@ -64,3 +64,5 @@ def create_sale():
     except Exception as e:
         db.session.rollback()
         return jsonify({'message': f'Error al crear la venta: {str(e)}'}), 500
+
+@

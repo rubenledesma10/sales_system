@@ -3,6 +3,7 @@ from models.db import db
 class Sale(db.Model): 
     __tablename__ ='sale'
 
+
     id_sale = db.Column(db.Integer, primary_key = True)
     sale_date = db.Column(db.Date, nullable = False)
     discount = db.Column(db.Float, nullable = False)
