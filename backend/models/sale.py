@@ -28,4 +28,4 @@ def serialize(self):
             'discount': self.discount,
             'final_amount': self.final_amount,
             'id_client': self.id_client
-    }
+        }
