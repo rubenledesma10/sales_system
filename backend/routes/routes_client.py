@@ -158,7 +158,7 @@ def update_client(id):
             error_msg = str(e.orig).lower()
 
             if 'rut' in error_msg:
-                return jsonify({'error': 'The rut is already registered'}), 400
+                return jsonify({'error': 'The rut is allready registered'}), 400
             else:
                 return jsonify({'error': 'Integrity constraint violated'}), 400
             
