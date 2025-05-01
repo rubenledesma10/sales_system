@@ -5,7 +5,8 @@ class Category(db.Model):
     id_category = db.Column(db.Integer, primary_key=True ) 
     name = db.Column(db.String(50), nullable = False)
     description = db.Column(db.String(250), nullable = False)
-    products=db.relationship('product', backref='category', lazy=True)
+    
+    products=db.relationship('Product', backref='category', lazy=True)
 
     def __init__(self, name,description,products): 
         self.name = name

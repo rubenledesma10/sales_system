@@ -28,3 +28,6 @@ class Supplier(db.Model):
             'web_page' : self.web_page,
             'rut' : self.rut
         }
+    
+
+    from models.product import Product

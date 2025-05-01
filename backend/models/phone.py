@@ -1,13 +1,13 @@
 from models.db import db
 
 class Phone(db.Model):
-    tablename = 'phone'
+    __tablename__ = 'phone'
 
     id_phone = db.Column(db.Integer, primary_key= True )
     id_client = db.Column(db.Integer,db.ForeignKey('client.id_client'))
     phone = db.Column(db.String(50), unique=True,nullable = False)
 
-    def init(self,id_client,phone):
+    def __init__(self,id_client,phone):
         self.id_client = id_client
         self.phone = phone
 
