@@ -4,7 +4,9 @@ from models.db import db
 from models.sale import Sale
 from models.sale_product import SaleProduct
 from models.client import Client #We need to associate the customer model with the sale
-from datetime import datetime
+from datetime import datetime 
+
+
 sale = Blueprint('sale',__name__)
 
 @sale.route ('/api/sales')#Traemos todas las ventas
@@ -45,7 +47,7 @@ def create_sale():
             except ValueError:
                 return jsonify({'message': 'Incorrect date format. Must be ddmmyyyy'}), 400
 
-        sale = Sale(
+        new_sale = Sale(
             sale_date=sale_date,
             discount=data.get('discount', 0.0),
             final_amount=data.get('final_amount'),
@@ -56,7 +58,7 @@ def create_sale():
         db.session.flush()
         db.session.commit()
 
-        return jsonify({'message': 'Sale created successfully', 'sale_id': sale.id_sale}), 201
+        return jsonify({'message': 'Sale created successfully', 'sale_id': new_sale.id_sale}), 201
 
     except IntegrityError:
         db.session.rollback()
