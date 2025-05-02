@@ -15,7 +15,7 @@ def get_clients():
         return jsonify ({'message: There are no clients registred'}), 200 
     return jsonify ([clients.serialize() for clients in client])
 
-@client.route('api/get_clients/<int:id_client>') #We access a client through their ID.
+@client.route('api/clients/<int:id_client>') #We access a client through their ID.
 def get_client_id(id):
     client = Client.query.get_or_404(id)
     if not client:
@@ -27,7 +27,7 @@ def get_client_id(id):
 #     phone = phone.query.filter_by(id_client=id_client).all()
 #     return jsonify([phone.serialize] for phone in phone) 
 
-@client.route('/api/add_client', methods = 'POST')
+@client.route('/api/clients', methods = 'POST')
 def add_client():
     data = request.json()
     
@@ -71,7 +71,7 @@ def add_client():
         print(f"Unexpected error: {e}")
         return jsonify ({'error': 'Error adding client'}), 500 
 
-@client.route('/api/delete_client/<int:id_client>', methods = 'DELETE')
+@client.route('/api/clients/<int:id_client>', methods = 'DELETE')
 
 def delete_client(id):
     client = Client.query.get(id)
@@ -87,7 +87,7 @@ def delete_client(id):
         db.session.rollback()
         return jsonify ({'error': str(e)})
 
-@client.route('/api/update_client/<int: id_client>', methods = 'PUT')
+@client.route('/api/clients/<int: id_client>', methods = 'PUT')
 
 def edit_client(id):
     data = request.get_json()
@@ -98,7 +98,7 @@ def edit_client(id):
     if not client:
         return jsonify({'message': 'client not found'}), 404
     
-    required_fields = ['name','district_address','street_address','number_address','city_address']
+    required_fields = ['name','district_address','rut','street_address','number_address','city_address']
     
     for field in required_fields:
         if not str(data.get(field,'')).strip():
@@ -109,6 +109,8 @@ def edit_client(id):
                 client.name = data['name']
             if 'district_address' in data:
                 client.district_address = data ['district_address']
+            if 'rut' in data :
+                client.rut = data['rut']
             if 'street_address' in data :
                 client.street_address = data ['street_address']
             if 'number_address' in data:
@@ -137,7 +139,7 @@ def update_client(id):
         return jsonify ({'error': 'No data received'}), 400 
     client = Client.query.get(id)
     
-    if not car: 
+    if not client: 
         return jsonify ({'message': 'Client not found'}), 404
     
     try: 

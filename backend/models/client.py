@@ -33,4 +33,5 @@ class Client(db.Model):
             'district_address': self.district_address,
             'city_address': self.city_address,
             'phones': [phone.serialize() for phone in self.phones]
+            'sale': [sale.serialize() for sale in self.sales]
         }
