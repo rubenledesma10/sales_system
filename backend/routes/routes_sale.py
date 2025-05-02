@@ -26,7 +26,7 @@ def get_client_sales(client_id):
     sales = Sale.query.filter_by(id_client=client_id).all()
     return jsonify([sale.serialize() for sale in sales])
 
-@sale.route('/api/add_sale', methods=['POST'])
+@sale.route('/api/sales', methods=['POST'])
 def create_sale():
     data = request.get_json()
 
@@ -66,15 +66,15 @@ def create_sale():
         db.session.rollback()
         return jsonify({'message': f'Error creating sale: {str(e)}'}), 500
 
-@sale.route('/api/delete_sale/<int:id_sale>', methods = 'DELETE')
+@sale.route('/api/sales/<int:id_sale>', methods = 'DELETE')
 
 def delete_sale(id):
-    client = Client.query.get(id)
+    sale = Sale.query.get(id)
     if not client:
         return jsonify({'message': 'sale not found'}), 404
     
     try: 
-        db.session.delete(client)
+        db.session.delete(sale)
         db.session.commit()
         return jsonify ({'message': 'sale delete successfully'}), 200
     
@@ -82,7 +82,7 @@ def delete_sale(id):
         db.session.rollback()
         return jsonify ({'error': str(e)})
 
-@sale_bp.route('/api/Update_sale/<int:sale_id>', methods=['PATCH'])
+@sale.route('/api/sales/<int:sale_id>', methods=['PATCH'])
 def update_sale(sale_id):
     data = request.get_json()
     sale = Sale.query.get_or_404(sale_id)
@@ -90,7 +90,7 @@ def update_sale(sale_id):
     try:
         if 'final_amount' in data:
             #You add the final sale to the sale that is being made
-            sale.final_amount += data['final_amount']
+            sale.final_amount = data['final_amount']
 
         if 'sale_date' in data:
             sale_date_str = data['sale_date']
@@ -107,7 +107,7 @@ def update_sale(sale_id):
         db.session.rollback()
         return jsonify({'message': f'Error updating sale: {str(e)}'}), 500
 
-@sale.route('/api/Update_all_sales/<int:sale_id>', methods=['PUT'])
+@sale.route('/api/sales/<int:sale_id>', methods=['PUT'])
 def update_sale_put(sale_id):
 
     data = request.get_json()
