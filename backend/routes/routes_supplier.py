@@ -2,24 +2,35 @@ from sqlalchemy.exc import IntegrityError
 from flask import Blueprint, jsonify, request
 from models.db import db
 from models.supplier import Supplier
+from models.product import Product
+
 
 supplier_bp = Blueprint('supplier', __name__)
 
 
-@supplier_bp.route('/api/supplier', methods=['GET'])
+@supplier_bp.route('/api/supplier', methods=['GET']) #ver todos los proveedores 
 def get_suppliers():
     suppliers = Supplier.query.all()
     if not suppliers:
         return jsonify({'message': 'No suppliers have been registered'}), 200
     return jsonify([s.serialize() for s in suppliers]), 200
 
-
-@supplier_bp.route('/api/get_supplier/<int:id>', methods=['GET'])
-def get_supplier_by_id(id):
+@supplier_bp.route('/api/get_supplier/<int:id>', methods=['GET'])   #ver proveedor por id y sus productos
+def get_supplier(id):
     supplier = Supplier.query.get(id)
     if not supplier:
         return jsonify({'message': 'Supplier not found'}), 404
     return jsonify(supplier.serialize()), 200
+
+
+@supplier_bp.route('/api/get_products_by_supplier/<int:id>', methods=['GET'])   #muestra todos los  productos de un proveedor por id
+def get_products_by_supplier(id):
+    supplier = Supplier.query.get(id)
+    if not supplier:
+        return jsonify({'message': 'Supplier not found'}), 404
+    
+    products = supplier.products
+    return jsonify([product.serialize() for product in products]), 200
 
 
 @supplier_bp.route('/api/add_supplier', methods=['POST'])
@@ -33,6 +44,13 @@ def add_supplier():
     for field in required:
         if not str(data.get(field, '')).strip():
             return jsonify({'error': f'{field.upper()} cannot be empty'}), 400
+        
+    existing_supplier = Supplier.query.filter(
+        (Supplier.phone == data['phone']) | (Supplier.rut == data['rut'])
+    ).first()
+
+    if existing_supplier:
+        return jsonify({'error': 'Supplier with this phone or RUT already exists'}), 400
 
     try:
         print(f'Data received: {data}')
@@ -51,17 +69,6 @@ def add_supplier():
             'message': 'Supplier successfully created',
             'supplier': new_supplier.serialize()
         }), 201
-
-    except IntegrityError as e:
-        db.session.rollback()
-        error_msg = str(e.orig).lower()
-
-        if 'phone' in error_msg:
-            return jsonify({'error': 'The phone number is already registered'}), 400
-        elif 'rut' in error_msg:
-            return jsonify({'error': 'The RUT is already registered'}), 400
-        else:
-            return jsonify({'error': 'Integrity constraint violated'}), 400
 
     except Exception as e:
         db.session.rollback()
@@ -98,6 +105,14 @@ def edit_supplier(id):
     for field in required:
         if not str(data.get(field, '')).strip():
             return jsonify({'error': f'{field.upper()} cannot be empty'}), 400
+        
+    conflicting_supplier = Supplier.query.filter(
+        ((Supplier.phone == data['phone']) | (Supplier.rut == data['rut'])) &
+        (Supplier.id_supplier != id)
+    ).first()
+
+    if conflicting_supplier:
+        return jsonify({'error': 'Another supplier already uses this phone or RUT'}), 400
 
     try:
         supplier.name = data['name']
@@ -108,17 +123,6 @@ def edit_supplier(id):
 
         db.session.commit()
         return jsonify({'message': 'Supplier updated successfully', 'supplier': supplier.serialize()}), 200
-
-    except IntegrityError as e:
-        db.session.rollback()
-        error_msg = str(e.orig).lower()
-
-        if 'phone' in error_msg:
-            return jsonify({'error': 'The phone number is already registered'}), 400
-        elif 'rut' in error_msg:
-            return jsonify({'error': 'The RUT is already registered'}), 400
-        else:
-            return jsonify({'error': 'Integrity constraint violated'}), 400
 
     except Exception as e:
         db.session.rollback()
@@ -135,6 +139,24 @@ def update_supplier(id):
     if not supplier:
         return jsonify({'message': 'Supplier not found'}), 404
 
+    
+    if 'phone' in data:
+        phone_conflict = Supplier.query.filter(
+            Supplier.phone == data['phone'],
+            Supplier.id_supplier != id
+        ).first()
+        if phone_conflict:
+            return jsonify({'error': 'Phone number already in use by another supplier'}), 400
+
+    
+    if 'rut' in data:
+        rut_conflict = Supplier.query.filter(
+            Supplier.rut == data['rut'],
+            Supplier.id_supplier != id
+        ).first()
+        if rut_conflict:
+            return jsonify({'error': 'RUT already in use by another supplier'}), 400
+
     try:
         if 'name' in data:
             supplier.name = data['name']
@@ -149,17 +171,6 @@ def update_supplier(id):
 
         db.session.commit()
         return jsonify({'message': 'Supplier updated successfully', 'supplier': supplier.serialize()}), 200
-
-    except IntegrityError as e:
-        db.session.rollback()
-        error_msg = str(e.orig).lower()
-
-        if 'phone' in error_msg:
-            return jsonify({'error': 'The phone number is already registered'}), 400
-        elif 'rut' in error_msg:
-            return jsonify({'error': 'The RUT is already registered'}), 400
-        else:
-            return jsonify({'error': 'Integrity constraint violated'}), 400
 
     except Exception as e:
         db.session.rollback()

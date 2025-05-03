@@ -1,0 +1,9 @@
+[
+  { "name": "Proveedor A", "address": "Calle 123", "phone": "11-1111-1111", "web_page": "www.proveedora.com", "rut": "20-12345678-9" },
+  { "name": "Proveedor B", "address": "Avenida X 456", "phone": "11-2222-2222", "web_page": "www.proveedorb.com", "rut": "30-98765432-1" },
+  { "name": "Proveedor C", "address": "Pasaje Z 789", "phone": "11-3333-3333", "web_page": "www.proveedorc.com", "rut": "27-55555555-5" }
+]
+  
+  
+  
+  
