@@ -2,6 +2,7 @@ from flask import Flask
 from config.config import DATABASE_CONNECTION_URI
 from models.db import db
 from routes.routes_product import product
+from routes.routes_client import client 
 
 app=Flask(__name__)
 
