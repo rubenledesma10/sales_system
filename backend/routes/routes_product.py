@@ -49,7 +49,7 @@ def add_product():
     except Exception as e:
         db.session.rollback()
         print(f"Unexpected error: {e}")
-        return jsonify({'error': 'Error adding product'}), 500
+        return jsonify({'error': 'Error adding mechanic'}), 500
     
 @product.route('/api/product/delete/<int:id_product>',methods=['DELETE'])
 def delete_product(id_product):
