@@ -134,11 +134,6 @@ def update_sale_put(sale_id):
         except ValueError:
             return jsonify({'message': 'Incorrect date format for sale_date. Must be ddmmyyyy'}), 400
 
-        sale.id_client = id_client
-        sale.sale_date = sale_date
-        sale.discount = discount
-        sale.final_amount = final_amount
-
         db.session.commit()
         return jsonify({'message': 'Sale updated successfully ', 'sale_id': sale.id_sale}), 200
 

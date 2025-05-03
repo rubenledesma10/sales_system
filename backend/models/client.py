@@ -1,18 +1,21 @@
 from models.db import db
 
+
+
+
 class Client(db.Model):
     __tablename__ = 'client'
 
+
     id_client = db.Column(db.Integer, primary_key=True)
-    rut = db.Column(db.String(50), nullable=False)
+    rut = db.Column(db.String(50), unique= True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
     street_address = db.Column(db.String(150), nullable=False)
     number_address = db.Column(db.String(50), nullable=False)
     district_address = db.Column(db.String(150), nullable=False)
     city_address = db.Column(db.String(50), nullable=False)
-
-    phones = db.relationship('Phone', backref='client', lazy=True)
-    sales = db.relationship('Sale', backref='client', lazy=True)
+    phones = db.relationship('Phone', backref='client', lazy=True, cascade="all, delete-orphan")
+    sales = db.relationship('Sale', backref='client', lazy=True, cascade="all, delete-orphan")
 
     def __init__(self, rut, name, street_address, number_address, district_address, city_address):
 
@@ -32,5 +35,7 @@ class Client(db.Model):
             'number_address': self.number_address,
             'district_address': self.district_address,
             'city_address': self.city_address,
-            'phones': [phone.serialize() for phone in self.phones]
+            'phones': [phone.serialize() for phone in self.phones] if self.phones else [],
+            'sales': [sale.serialize() for sale in self.sales] if self.sales else []
         }
+
