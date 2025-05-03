@@ -83,7 +83,7 @@ def update_category(id):
         return jsonify ({"error": "Category not found"}), 404
     try:
         if "name" in data:
-                category.name= data["name"]
+            category.name= data["name"]
         if "description" in data:
             category.description= data["description"]
     
@@ -94,32 +94,72 @@ def update_category(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": f"Internal error: {str(e)}"}), 500
-    
+
 @category_db.route("/api/up_category/<int:id>", methods=["PATCH"])
 def edit_category(id):
     data = request.get_json()
 
     if not data:
         return jsonify({"error": "No data received"}), 400
-    
+
+
     category = Category.query.get(id)
 
     if not category:
         return jsonify({"error": "Category not found"}), 404
 
     try:
+
         if "name" in data:
-            category.name = data["name"]
+            name = data["name"]
+            if isinstance(name, str) and name.strip():
+                category.name = name.strip()
+            else:
+                return jsonify({"error": "The 'name' field cannot be empty"}), 400
+
         if "description" in data:
-            category.description = data["description"]
-    
+            description = data["description"]
+            if isinstance(description, str) and description.strip():
+                category.description = description.strip()
+            else:
+                return jsonify({"error": "The 'description' field cannot be empty"}), 400
+
         db.session.commit()
 
-        return jsonify({"message": "Category updated successfully", "category": category.serialize()}), 200
+        return jsonify({
+            "message": "Category updated successfully",
+            "category": category.serialize()
+        }), 200
 
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": f"Internal error: {str(e)}"}), 500
+
+# @category_db.route("/api/up_category/<int:id>", methods=["PATCH"])
+# def edit_category(id):
+#     data = request.get_json()
+
+#     if not data:
+#         return jsonify({"error": "No data received"}), 400
+    
+#     category = Category.query.get(id)
+
+#     if not category:
+#         return jsonify({"error": "Category not found"}), 404
+
+#     try:
+#         if "name" in data:
+#             category.name = data["name"]
+#         if "description" in data:
+#             category.description = data["description"]
+    
+#         db.session.commit()
+
+#         return jsonify({"message": "Category updated successfully", "category": category.serialize()}), 200
+
+#     except Exception as e:
+#         db.session.rollback()
+#         return jsonify({"error": f"Internal error: {str(e)}"}), 500
 
 
 
