@@ -5,47 +5,45 @@ System Sales is a RESTful API developed for sales system management. It allows y
 Base URL: http://localhost:5000/api
 
 ▶️ **Instructions to Run the Project**
-Clone the repository:
+1. _Clone the repository:_
 
 `
 git clone https://github.com/tu-usuario/tu-repo.git`
 
 
-1. _Create a virtual environment:_
+2. _Create a virtual environment:_
 
-On Windows:
+  On Windows:
 `
 python -m venv <environment_name>`
 
 
-On Linux/macOS:
+  On Linux/macOS:
 `
 python3 -m venv <environment_name>`
 
 
-2. _Activate the virtual environment:_
+3. _Activate the virtual environment:_
 
-On Windows:
+  On Windows:
 `
 <environment_name>\Scripts\activate`
 
-
-On Linux / macOS:
+  On Linux / macOS:
 `
 source <environment_name>/bin/activate`
 
 
-3. _Install dependencies:_
+4. _Install dependencies:_
 
-On Windows, Linux, and macOS:
+|On Windows, Linux, and macOS:
 `
 pip install -r requirements.txt`
 
 
-4. _Run the application:_
+5. _Run the application:_
 
 `python3 -m venv <nombre_del_entorno`
-
 
 
 🧩 **Class Diagram**
