@@ -55,7 +55,7 @@ pip install -r requirements.txt`
 📄 **Documentation**
 
 You can access the full documentation and test the endpoints via the following Postman link:
-👉 [Postman collection link](https://documenter.getpostman.com/view/31369461/2sB2j689Yf))
+👉 [Documentation](https://documenter.getpostman.com/view/31369461/2sB2j689Yf)
 
 🧑‍💻 **Team Members and Contributions**
 
