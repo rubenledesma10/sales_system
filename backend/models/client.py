@@ -10,8 +10,7 @@ class Client(db.Model):
     number_address = db.Column(db.String(50), nullable=False)
     district_address = db.Column(db.String(150), nullable=False)
     city_address = db.Column(db.String(50), nullable=False)
-
-    phones = db.relationship('Phone', backref='client', lazy=True)
+    phones = db.relationship('Phone', backref='client', lazy=True, cascade="all, delete-orphan")
     sales = db.relationship('Sale', backref='client', lazy=True)
 
     def __init__(self, rut, name, street_address, number_address, district_address, city_address):

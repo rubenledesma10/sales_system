@@ -27,7 +27,7 @@ def get_client_id(id):
 #     phone = phone.query.filter_by(id_client=id_client).all()
 #     return jsonify([phone.serialize] for phone in phone) 
 
-@client.route('/api/add_client/<int:id_client>', methods= ['POST'])
+@client.route('/api/clients/', methods= ['POST'])
 def add_client():
     data = request.get_json()
 
@@ -83,10 +83,10 @@ def add_client():
         print(f"Unexpected error: {e}")
         return jsonify({'error': 'Error adding client'}), 500
 
-@client.route('/api/delete_client/<int:id_client>', methods = ['DELETE'])
+@client.route('/api/clients/<int:id_client>', methods = ['DELETE'])
 
-def delete_client(id):
-    client = Client.query.get(id)
+def delete_client(id_client):
+    client = Client.query.get(id_client)
     if not client:
         return jsonify({'message': 'client not found'}), 404
     
@@ -99,14 +99,14 @@ def delete_client(id):
         db.session.rollback()
         return jsonify ({'error': str(e)})
 
-@client.route('/api/update_client/<int:id_client>', methods = ['PUT'])
+@client.route('/api/clients/<int:id_client>', methods = ['PUT'])
 
-def edit_client(id):
+def edit_client(id_client):
     data = request.get_json()
     if not data:
         return jsonify({'error': 'No data received'},400)
     
-    client = Client.query.get(id)
+    client = Client.query.get(id_client)
     if not client:
         return jsonify({'message': 'client not found'}), 404
     
@@ -142,14 +142,14 @@ def edit_client(id):
             db.session.rollback
             return jsonify ({'error': str(e)}), 500
 
-@client.route('/api/update_client_atribute/<int:id_client>', methods = ['PATCH'])
+@client.route('/api/clients/<int:id_client>', methods = ['PATCH'])
 
-def update_client(id):
+def update_client(id_client):
     data = request.get_json()
     
     if not data : 
         return jsonify ({'error': 'No data received'}), 400 
-    client = Client.query.get(id)
+    client = Client.query.get(id_client)
     
     if not client: 
         return jsonify ({'message': 'Client not found'}), 404
