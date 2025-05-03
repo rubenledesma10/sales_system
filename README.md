@@ -1,4 +1,6 @@
 **System Sales**
+
+
 System Sales is a RESTful API developed for sales system management. It allows you to manage sales, clients, products, phones, suppliers, and categories, providing complete CRUD operations with their respective relationships for each entity.
 Base URL: http://localhost:5000/api
 
