@@ -8,14 +8,14 @@ from models.sale import Sale
 client = Blueprint('client', __name__)
 
 
-@client.route('api/clients') #Get all clients
+@client.route('/api/clients') #Get all clients
 def get_clients():
     client = Client.query.all()
     if not client:
         return jsonify ({'message: There are no clients registred'}), 200 
     return jsonify ([clients.serialize() for clients in client])
 
-@client.route('api/get_client/<int:id_client>') #We access a client through their ID.
+@client.route('/api/get_client/<int:id_client>') #We access a client through their ID.
 def get_client_id(id):
     client = Client.query.get_or_404(id)
     if not client:
@@ -27,7 +27,7 @@ def get_client_id(id):
 #     phone = phone.query.filter_by(id_client=id_client).all()
 #     return jsonify([phone.serialize] for phone in phone) 
 
-@client.route('/api/add_client/<int:id_client>', methods='POST')
+@client.route('/api/add_client/<int:id_client>', methods= ['POST'])
 def add_client():
     data = request.get_json()
 
@@ -83,7 +83,7 @@ def add_client():
         print(f"Unexpected error: {e}")
         return jsonify({'error': 'Error adding client'}), 500
 
-@client.route('/api/delete_client/<int:id_client>', methods = 'DELETE')
+@client.route('/api/delete_client/<int:id_client>', methods = ['DELETE'])
 
 def delete_client(id):
     client = Client.query.get(id)
@@ -99,7 +99,7 @@ def delete_client(id):
         db.session.rollback()
         return jsonify ({'error': str(e)})
 
-@client.route('/api/update_client/<int: id_client>', methods = 'PUT')
+@client.route('/api/update_client/<int: id_client>', methods = ['PUT'])
 
 def edit_client(id):
     data = request.get_json()
@@ -142,7 +142,7 @@ def edit_client(id):
             db.session.rollback
             return jsonify ({'error': str(e)}), 500
 
-@client.route('/api/update_client_atribute/<int:id_client>', methods = 'PATCH')
+@client.route('/api/update_client_atribute/<int:id_client>', methods = ['PATCH'])
 
 def update_client(id):
     data = request.get_json()
