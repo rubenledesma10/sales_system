@@ -12,7 +12,7 @@ sale_bp = Blueprint('sale', __name__)
 def get_sales():
     sales = Sale.query.all()
     if not sales:
-        return jsonify({'message': 'There are no sales registered'}), 404
+        return jsonify({'message': 'There are no sales registered'}),404
     return jsonify([sale.serialize() for sale in sales])
 
 @sale_bp.route('/api/sales/<int:sale_id>', methods=['GET'])
