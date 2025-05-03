@@ -15,7 +15,7 @@ def get_clients():
         return jsonify ({'message: There are no clients registred'}), 200 
     return jsonify ([clients.serialize() for clients in client])
 
-@client.route('/api/clients/<int:id_client>') #We access a client through their ID.
+@client.route('/api/client/<int:id_client>') #We access a client through their ID.
 def get_client_id(id_client):
     client = Client.query.get_or_404(id_client)
     if not client:
