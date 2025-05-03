@@ -3,11 +3,15 @@ from config.config import DATABASE_CONNECTION_URI
 from models.db import db
 from routes.routes_supplier import supplier_bp
 from routes.routes_product import product
-
+from routes.route_phone import phone_tel
+from routes.route_category import category_db
 
 app=Flask(__name__)
 
 app.register_blueprint(product)
+app.register_blueprint(phone_tel)
+app.register_blueprint(category_db)
+
 
 app.config["SQLALCHEMY_DATABASE_URI"]=DATABASE_CONNECTION_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -28,3 +32,12 @@ with app.app_context():
 
 if __name__=='__main__':
     app.run(debug=True)
+
+
+
+
+
+
+
+
+
