@@ -13,7 +13,7 @@ def get_suppliers():
     suppliers = Supplier.query.all()
     if not suppliers:
         return jsonify({'message': 'No suppliers have been registered'}), 200
-    return jsonify([s.serialize() for s in suppliers]), 200
+    return jsonify([s.serialize_basic() for s in suppliers]), 200
 
 @supplier_bp.route('/api/get_supplier/<int:id>', methods=['GET'])   #ver proveedor por id y sus productos
 def get_supplier(id):
@@ -67,7 +67,7 @@ def add_supplier():
 
         return jsonify({
             'message': 'Supplier successfully created',
-            'supplier': new_supplier.serialize()
+            'supplier': new_supplier.serialize_basic()
         }), 201
 
     except Exception as e:

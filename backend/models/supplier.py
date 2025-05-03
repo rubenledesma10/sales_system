@@ -11,7 +11,7 @@ class Supplier(db.Model):
     web_page = db.Column(db.String(20),nullable=False)
     rut = db.Column(db.String(20),nullable=False)
 
-    products = db.relationship('Product', backref='supplier', lazy=True)
+    products = db.relationship('Product', backref='supplier', lazy=True,cascade='all, delete-orphan')
 
     def __init__(self, name, address, phone, web_page, rut):
         self.name = name
@@ -19,6 +19,18 @@ class Supplier(db.Model):
         self.phone = phone
         self.web_page = web_page
         self.rut = rut
+
+
+
+    def serialize_basic(self):
+        return {
+            'id_supplier': self.id_supplier,
+            'name': self.name,
+            'address': self.address,
+            'phone': self.phone,
+            'web_page': self.web_page,
+            'rut': self.rut,
+        }
 
     def serialize(self):
         return {
