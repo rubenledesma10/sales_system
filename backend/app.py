@@ -2,10 +2,12 @@ from flask import Flask
 from config.config import DATABASE_CONNECTION_URI
 from models.db import db
 from routes.routes_product import product
+from routes.routes_sale_product import sale_product
 
 app=Flask(__name__)
 
 app.register_blueprint(product)
+app.register_blueprint(sale_product)
 
 app.config["SQLALCHEMY_DATABASE_URI"]=DATABASE_CONNECTION_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False

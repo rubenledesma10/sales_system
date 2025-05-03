@@ -14,14 +14,14 @@ def get_sale_products():
         return jsonify({'message':'There are no sale products registered'}),200
     return jsonify([sale_product.serialize() for sale_product in sale_products])
 
-@sale_product.route('api/sale-product/get/<int:id_sale_product>')
+@sale_product.route('/api/sale-product/get/<int:id_sale_product>')
 def get_sale_product(id_sale_product):
     sale_product=SaleProduct.query.get(id_sale_product)
     if not sale_product:
         return({'message':'Sale product not found'}),404
     return jsonify(sale_product.serialize()),200
 
-@sale_product.route('api/sale-product/add',methods=['POST'])
+@sale_product.route('/api/sale-product/add',methods=['POST'])
 def add_sale_product():
     data=request.get_json()
     required_fields=['subtotal','quantity','sould_price','product_id','sale_id']
@@ -50,7 +50,7 @@ def add_sale_product():
         print(f"Unexpected error: {e}")
         return jsonify({'error': 'Error adding product'}), 500
     
-@sale_product.route('api/sale-product/delete/<int:id_sale_product>', methods=['DELETE'])
+@sale_product.route('/api/sale-product/delete/<int:id_sale_product>', methods=['DELETE'])
 def delete_sale_product(id_sale_product):
     sale_product=SaleProduct.query.get(id_sale_product)
     if not sale_product:
@@ -63,7 +63,7 @@ def delete_sale_product(id_sale_product):
         db.session.rollback()
         return jsonify({'error':str(e)}), 500
     
-@sale_product.route('api/sale-product/edit/<int:id_sale_product>', methods=['PUT'])
+@sale_product.route('/api/sale-product/edit/<int:id_sale_product>', methods=['PUT'])
 def edit_sale_product(id_sale_product):
     data=request.get_json()
     if not data:
@@ -95,7 +95,7 @@ def edit_sale_product(id_sale_product):
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
     
-@sale_product.route('api/sale-product/update/<int:id_sale_product>', methods=['PATCH'])
+@sale_product.route('/api/sale-product/update/<int:id_sale_product>', methods=['PATCH'])
 def update_sale_product(id_sale_product):
     data=request.get_json()
     if not data:
