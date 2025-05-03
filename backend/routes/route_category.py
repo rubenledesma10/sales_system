@@ -3,23 +3,23 @@ from models.db import db
 from models.category import Category
 from models.product import Product
 
-category = Blueprint ("category", __name__)
+category_db = Blueprint ("category", __name__)
 
-@category.route('/api/get_category')
+@category_db.route('/api/get_category')
 def get_category():
     categories=Category.query.all() 
     if not categories:
-        return jsonify({"message" : "unregistered category"}),200
-    return jsonify([category.serialize() for category in categories])
+        return jsonify({"message" : "unregistered category"}),404
+    return jsonify([category.serialize() for category in categories]),200
 
-@category.route("/api/category/<int:id>")
+@category_db.route("/api/category/<int:id>")
 def get_id_category(id):
     category = Category.query.get(id)
     if not category:
         return jsonify ({"message" : "Category not found" }),404
     return jsonify (category.serialize()),200
 
-@category.route("/api/category", methods=["POST"])
+@category_db.route("/api/create_category", methods=["POST"])
 def add_category():
     data = request.get_json()
 
@@ -53,22 +53,24 @@ def add_category():
         db.session.rollback()
         return jsonify({"error": f"Internal error: {str(e)}"}), 500
 
-@category.route("/api/category/<int:id>", methods=["DELETE"])
-def delete_category():
+@category_db.route("/api/category/<int:id>", methods=["DELETE"])
+def delete_category(id):
     category = Category.query.get(id)
 
     if not category:
-        return jsonify ({"message": "Category not found"}), 404
-    
+        return jsonify({"message": "Category not found"}), 404
+
     try:
         db.session.delete(category)
         db.session.commit()
-        return jsonify({"message":"Category delete"})
+        return jsonify({"message": "Category deleted successfully"}), 200
+
     except Exception as e:
         db.session.rollback()
-        return jsonify({"error":str(e)}), 500
+        return jsonify({"error": str(e)}), 500
 
-@category.route("/api/up_category/<int:id>", methods=["PUT"])
+
+@category_db.route("/api/up_category/<int:id>", methods=["PUT"])
 def update_category(id):
     data= request.get_json()
 
@@ -93,7 +95,7 @@ def update_category(id):
         db.session.rollback()
         return jsonify({"error": f"Internal error: {str(e)}"}), 500
     
-@category.route("/api/up_category/<int:id>", methods=["PATCH"])
+@category_db.route("/api/up_category/<int:id>", methods=["PATCH"])
 def edit_category(id):
     data = request.get_json()
 
