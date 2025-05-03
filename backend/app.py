@@ -6,6 +6,7 @@ from routes.routes_sale import sale_bp
 
 app=Flask(__name__)
 
+
 app.register_blueprint(product)
 app.register_blueprint(sale_bp)
 
