@@ -36,7 +36,7 @@ source <environment_name>/bin/activate`
 
 4. _Install dependencies:_
 
-|On Windows, Linux, and macOS:
+On Windows, Linux, and macOS:
 `
 pip install -r requirements.txt`
 
@@ -47,7 +47,11 @@ pip install -r requirements.txt`
 
 
 🧩 **Class Diagram**
+
+
 ![Class Diagram](docs/Sistema%20de%20ventas.drawio.png)
+
+
 📄 **Documentation**
 
 You can access the full documentation and test the endpoints via the following Postman link:
