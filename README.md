@@ -7,33 +7,45 @@ Base URL: http://localhost:5000/api
 ▶️ **Instructions to Run the Project**
 Clone the repository:
 
-git clone https://github.com/tu-usuario/tu-repo.git
+`
+git clone https://github.com/tu-usuario/tu-repo.git`
+
 
 1. _Create a virtual environment:_
 
 On Windows:
-python -m venv <environment_name>
+`
+python -m venv <environment_name>`
+
 
 On Linux/macOS:
-python3 -m venv <environment_name>
+`
+python3 -m venv <environment_name>`
+
 
 2. _Activate the virtual environment:_
 
 On Windows:
-<environment_name>\Scripts\activate
+`
+<environment_name>\Scripts\activate`
+
 
 On Linux / macOS:
-source <environment_name>/bin/activate
+`
+source <environment_name>/bin/activate`
+
 
 3. _Install dependencies:_
 
 On Windows, Linux, and macOS:
-pip install -r requirements.txt
+`
+pip install -r requirements.txt`
+
 
 4. _Run the application:_
-```markdown
-```bash
-python3 -m venv <nombre_del_entorno
+
+`python3 -m venv <nombre_del_entorno`
+
 
 
 🧩 **Class Diagram**
