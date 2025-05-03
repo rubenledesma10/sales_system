@@ -17,7 +17,9 @@ def get_sales():
 
 @sale_bp.route('/api/sales/<int:sale_id>', methods=['GET'])
 def get_sale_id(sale_id):
-    sale = Sale.query.get_or_404(sale_id)
+    sale = Sale.query.get(sale_id)
+    if not sale:
+        return jsonify({'message': 'There are no sale registered'}), 404
     return jsonify(sale.serialize())
 
 @sale_bp.route('/api/clients/<int:client_id>/sales', methods=['GET']) #We access ALL of a customer's sales through their ID
@@ -32,7 +34,7 @@ def create_sale():
 
     try:
         id_client = data.get('id_client')
-        client = Client.query.get_or_404(id_client)
+        client = Client.query.get(id_client)
         if not client:
             return jsonify({'message': 'Client not found'}), 404
 
@@ -41,7 +43,7 @@ def create_sale():
 
         if sale_date_str:
             try:
-                sale_date = datetime.strptime(sale_date_str, '%d%m%Y').date()
+                sale_date = datetime.strptime(sale_date_str, '%d-%m-%Y').date()
             except ValueError:
                 return jsonify({'message': 'Incorrect date format. Must be ddmmyyyy'}), 400
 
@@ -59,17 +61,15 @@ def create_sale():
 
         return jsonify({'message': 'Sale created successfully', 'sale_id': new_sale.id_sale}), 201
 
-    except IntegrityError:
-        db.session.rollback()
-        return jsonify({'message': 'Database integrity error'}), 400
+
     except Exception as e:
         db.session.rollback()
         return jsonify({'message': f'Error creating sale: {str(e)}'}), 500
 
 @sale_bp.route('/api/sales/<int:id_sale>', methods = ['DELETE'])
 
-def delete_sale(id):
-    sale = Sale.query.get(id)
+def delete_sale(id_sale):
+    sale = Sale.query.get(id_sale)
     if not sale:
         return jsonify({'message': 'sale not found'}), 404
     
@@ -85,8 +85,10 @@ def delete_sale(id):
 @sale_bp.route('/api/sales/<int:sale_id>', methods=['PATCH'])
 def update_sale(sale_id):
     data = request.get_json()
-    sale = Sale.query.get_or_404(sale_id)
-
+    sale = Sale.query.get(sale_id)
+    sale = Sale.query.get(sale_id)
+    if not sale:
+        return jsonify({'message': 'Sale not found'}), 404
     try:
         if 'final_amount' in data:
             #You add the final sale to the sale that is being made
@@ -95,7 +97,7 @@ def update_sale(sale_id):
         if 'sale_date' in data:
             sale_date_str = data['sale_date']
             try:
-                sale.sale_date = datetime.strptime(sale_date_str, '%d%m%Y').date()
+                sale.sale_date = datetime.strptime(sale_date_str, '%d-%m-%Y').date()
                 # Updates the sale date to the date of the last "sale after sale"
             except ValueError:
                 return jsonify({'message': 'Incorrect date format for sale_date. Must be ddmmyyyy'}), 400
@@ -111,8 +113,10 @@ def update_sale(sale_id):
 def update_sale_put(sale_id):
 
     data = request.get_json()
-    sale = Sale.query.get_or_404(sale_id)
-
+    sale = Sale.query.get(sale_id)
+    if not sale:
+        return jsonify({'message': 'sale not found'}), 404
+    
     try:
         id_client = data.get('id_client')
         sale_date_str = data.get('sale_date')
@@ -126,7 +130,7 @@ def update_sale_put(sale_id):
         client = Client.query.get_or_404(id_client)
 
         try:
-            sale_date = datetime.strptime(sale_date_str, '%d%m%Y').date()
+            sale_date = datetime.strptime(sale_date_str, '%d-%m-%Y').date()
         except ValueError:
             return jsonify({'message': 'Incorrect date format for sale_date. Must be ddmmyyyy'}), 400
 
@@ -136,11 +140,8 @@ def update_sale_put(sale_id):
         sale.final_amount = final_amount
 
         db.session.commit()
-        return jsonify({'message': 'Sale updated successfully (PUT)', 'sale_id': sale.id_sale}), 200
+        return jsonify({'message': 'Sale updated successfully ', 'sale_id': sale.id_sale}), 200
 
-    except IntegrityError:
-        db.session.rollback()
-        return jsonify({'message': 'Database integrity error during update'}), 400
     except Exception as e:
         db.session.rollback()
         return jsonify({'message': f'Error updating sale (PUT): {str(e)}'}), 500
