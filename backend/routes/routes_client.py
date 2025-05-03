@@ -15,12 +15,12 @@ def get_clients():
         return jsonify ({'message: There are no clients registred'}), 200 
     return jsonify ([clients.serialize() for clients in client])
 
-@client.route('/api/get_client/<int:id_client>') #We access a client through their ID.
-def get_client_id(id):
-    client = Client.query.get_or_404(id)
+@client.route('/api/clients/<int:id_client>') #We access a client through their ID.
+def get_client_id(id_client):
+    client = Client.query.get_or_404(id_client)
     if not client:
-        return jsonify({'message: Client not found'}), 404 
-    return jsonify (client.serialize()), 200
+        return jsonify({'message': 'Client not found'}), 404
+    return jsonify(client.serialize()), 200
 
 # @client.route('api/clients/<int:id_client>/phones', methods = 'GET') #We access the customer's phone number(s) through their ID
 # def get_client_phones (id_client):
