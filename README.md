@@ -31,9 +31,10 @@ On Windows, Linux, and macOS:
 pip install -r requirements.txt
 
 4. _Run the application:_
-
+```markdown
 ```bash
-python app.py
+python3 -m venv <nombre_del_entorno
+
 
 🧩 **Class Diagram**
 ![Class Diagram](docs/Sistema%20de%20ventas.drawio.png)
