@@ -99,7 +99,7 @@ def delete_client(id):
         db.session.rollback()
         return jsonify ({'error': str(e)})
 
-@client.route('/api/update_client/<int: id_client>', methods = ['PUT'])
+@client.route('/api/update_client/<int:id_client>', methods = ['PUT'])
 
 def edit_client(id):
     data = request.get_json()
