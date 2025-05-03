@@ -8,8 +8,8 @@ class Sale(db.Model):
     discount = db.Column(db.Float, nullable=False)
     final_amount = db.Column(db.Float, nullable=False)
     id_client = db.Column(db.Integer, db.ForeignKey('client.id_client'), nullable=False)
+    sale_products = db.relationship('SaleProduct', backref='sale', lazy=True, cascade="all, delete-orphan")
 
-    sale_products = db.relationship('SaleProduct', backref='sale', lazy=True)
 
     def __init__(self, sale_date, final_amount, id_client, discount):
         self.sale_date = sale_date
