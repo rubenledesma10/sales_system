@@ -30,8 +30,15 @@ def add_product():
     for field in required_fields:
         if not str(data.get(field, '')).strip():  
             return jsonify({'error': f'{field.title()} is required and cannot be empty'}), 400
+        
     try:
         print(f"Data received: {data}")
+        supplier = Supplier.query.get(data['supplier_id'])
+        if not supplier:
+            return jsonify({'error':'Supplier not found'}),404
+        category=Category.query.get(data['category_id'])
+        if not category:
+            return jsonify({'error':'Category not found'}),404
         new_product=Product(
             data['name'],
             data['current_price'],
@@ -41,11 +48,15 @@ def add_product():
         )
 
         db.session.add(new_product)
-        db.session.commit
+        db.session.commit()
         return jsonify({
             'message': 'Product successfully created',
             'product': new_product.serialize()
         }), 201
+    except IntegrityError as e: #para captar errores en la bd
+        db.session.rollback()
+        print(f"IntegrityError: {e}")
+        return jsonify({'error': 'Database integrity error: ' + str(e)}), 400
     except Exception as e:
         db.session.rollback()
         print(f"Unexpected error: {e}")
@@ -58,7 +69,7 @@ def delete_product(id_product):
         return jsonify({'message':'Product not found'}),404
     try:
         db.session.delete(product)
-        db.session.commit
+        db.session.commit()
         return jsonify({'message':'Product delete successfully'}),200
     except Exception as e:
         db.session.rollback()
@@ -74,6 +85,12 @@ def edit_product(id_product):
     product=Product.query.get(id_product)
     if not product:
         return jsonify({'message':'Product not found'}), 404
+    supplier = Supplier.query.get(data['supplier_id'])
+    if not supplier:
+        return jsonify({'error':'Supplier not found'}),404
+    category=Category.query.get(data['category_id'])
+    if not category:
+        return jsonify({'error':'Category not found'}),404
     
     required_fields=['name','current_price','stock','supplier_id','category_id']
     for field in required_fields:
@@ -91,7 +108,11 @@ def edit_product(id_product):
         if 'category_id' in data:
             product.category_id=data['category_id']
         db.session.commit()
-        return jsonify({'message':'Product edit correctly','product':product.serialize()}),200
+        return jsonify({'message':'Product edited correctly','product':product.serialize()}),200
+    except IntegrityError as e:
+        db.session.rollback()
+        print(f"IntegrityError: {e}")
+        return jsonify({'error': 'Database integrity error: ' + str(e)}), 400
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
@@ -100,9 +121,10 @@ def update_product(id_product):
     data=request.get_json()
     if not data:
         return jsonify({'error':'No data received'}, 400)
-    product = Product.query.get(id)
+    product = Product.query.get(id_product)
     if not product:
         return jsonify({'message':'Product not found'}),404
+    
     try:
         if 'name' in data:
             product.name=data['name']
@@ -112,10 +134,20 @@ def update_product(id_product):
             product.stock=data['stock']
         if 'supplier_id' in data:
             product.supplier_id=data['supplier_id']
+            supplier = Supplier.query.get(data['supplier_id'])
+            if not supplier:
+                return jsonify({'error':'Supplier not found'}),404
         if 'category_id' in data:
             product.category_id=data['category_id']
+            category=Category.query.get(data['category_id'])
+            if not category:
+                return jsonify({'error':'Category not found'}),404
         db.session.commit()
-        return jsonify({'message':'Product update correctly','product':product.serialize()}),200
+        return jsonify({'message':'Product updated correctly','product':product.serialize()}),200
+    except IntegrityError as e:
+        db.session.rollback()
+        print(f"IntegrityError: {e}")
+        return jsonify({'error': 'Database integrity error: ' + str(e)}), 400
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500

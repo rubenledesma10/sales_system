@@ -1,4 +1,6 @@
 from models.db import db
+from models.supplier import Supplier
+from models.category import Category
 
 class Product(db.Model):
     __tablename__ = 'product'
@@ -25,7 +27,14 @@ class Product(db.Model):
             'name': self.name,
             'current_price': self.current_price,
             'stock': self.stock,
-            'id_supplier': self.id_supplier,
-            'id_category': self.id_category
-            
+
+            'supplier': {
+                'id_supplier': self.supplier.id_supplier,
+                'name': self.supplier.name
+            } if self.supplier else None,
+            'category': {
+                'id_category': self.category.id_category,
+                'name': self.category.name
+            } if self.category else None
+
         }
