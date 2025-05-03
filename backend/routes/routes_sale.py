@@ -8,25 +8,25 @@ from datetime import datetime  # Importa también 'date' si lo usas en tus model
 
 sale_bp = Blueprint('sale', __name__)
 
-@sale.route('/api/sales')#Get all sales
+@sale_bp.route('/api/sales')#Get all sales
 def get_sales():
     sales = Sale.query.all()
     if not sales:
         return jsonify({'message': 'There are no sales registered'}), 404
     return jsonify([sale.serialize() for sale in sales])
 
-@sale.route('/api/sales/<int:sale_id>', methods=['GET'])
+@sale_bp.route('/api/sales/<int:sale_id>', methods=['GET'])
 def get_sale_id(sale_id):
     sale = Sale.query.get_or_404(sale_id)
     return jsonify(sale.serialize())
 
-@sale.route('/api/clients/<int:client_id>/sales', methods=['GET']) #We access ALL of a customer's sales through their ID
+@sale_bp.route('/api/clients/<int:client_id>/sales', methods=['GET']) #We access ALL of a customer's sales through their ID
 def get_client_sales(client_id):
     client = Client.query.get_or_404(client_id)
     sales = Sale.query.filter_by(id_client=client_id).all()
     return jsonify([sale.serialize() for sale in sales])
 
-@sale.route('/api/sales', methods=['POST'])
+@sale_bp.route('/api/sales', methods=['POST'])
 def create_sale():
     data = request.get_json()
 
@@ -66,11 +66,11 @@ def create_sale():
         db.session.rollback()
         return jsonify({'message': f'Error creating sale: {str(e)}'}), 500
 
-@sale.route('/api/sales/<int:id_sale>', methods = 'DELETE')
+@sale_bp.route('/api/sales/<int:id_sale>', methods = ['DELETE'])
 
 def delete_sale(id):
     sale = Sale.query.get(id)
-    if not client:
+    if not sale:
         return jsonify({'message': 'sale not found'}), 404
     
     try: 
@@ -82,7 +82,7 @@ def delete_sale(id):
         db.session.rollback()
         return jsonify ({'error': str(e)})
 
-@sale.route('/api/sales/<int:sale_id>', methods=['PATCH'])
+@sale_bp.route('/api/sales/<int:sale_id>', methods=['PATCH'])
 def update_sale(sale_id):
     data = request.get_json()
     sale = Sale.query.get_or_404(sale_id)
@@ -107,7 +107,7 @@ def update_sale(sale_id):
         db.session.rollback()
         return jsonify({'message': f'Error updating sale: {str(e)}'}), 500
 
-@sale.route('/api/sales/<int:sale_id>', methods=['PUT'])
+@sale_bp.route('/api/sales/<int:sale_id>', methods=['PUT'])
 def update_sale_put(sale_id):
 
     data = request.get_json()
