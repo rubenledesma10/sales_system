@@ -27,6 +27,7 @@ class Product(db.Model):
             'name': self.name,
             'current_price': self.current_price,
             'stock': self.stock,
+
             'supplier': {
                 'id_supplier': self.supplier.id_supplier,
                 'name': self.supplier.name
@@ -35,4 +36,5 @@ class Product(db.Model):
                 'id_category': self.category.id_category,
                 'name': self.category.name
             } if self.category else None
+
         }

@@ -7,7 +7,9 @@ class Phone(db.Model):
     id_client = db.Column(db.Integer, db.ForeignKey('client.id_client'), nullable=False)
     phone = db.Column(db.String(50), nullable=False)
 
+
     def __init__(self, id_client, phone):
+
         self.id_client = id_client
         self.phone = phone
 
