@@ -4,7 +4,7 @@ from models.db import db
 from models.sale import Sale
 from models.sale_product import SaleProduct
 from models.client import Client #We need to associate the customer model with the sale
-from datetime import datetime  # Importa también 'date' si lo usas en tus modelos
+from datetime import datetime  # Importe  'date' para el manejo de fechas 
 
 sale_bp = Blueprint('sale', __name__)
 
@@ -12,7 +12,7 @@ sale_bp = Blueprint('sale', __name__)
 def get_sales():
     sales = Sale.query.all()
     if not sales:
-        return jsonify({'message': 'There are no sales registered'}),404
+        return jsonify({'message': 'There are no sales registered'}), 404
     return jsonify([sale.serialize() for sale in sales])
 
 @sale_bp.route('/api/sales/<int:sale_id>', methods=['GET'])
