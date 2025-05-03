@@ -4,7 +4,7 @@ class Client(db.Model):
     __tablename__ = 'client'
 
     id_client = db.Column(db.Integer, primary_key=True)
-    rut = db.Column(db.String(50), nullable=False)
+    rut = db.Column(db.String(50), unique= True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
     street_address = db.Column(db.String(150), nullable=False)
     number_address = db.Column(db.String(50), nullable=False)
@@ -34,3 +34,4 @@ class Client(db.Model):
             'phones': [phone.serialize() for phone in self.phones] if self.phones else [],
             'sales': [sale.serialize() for sale in self.sales] if self.sales else []
         }
+

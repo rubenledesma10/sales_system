@@ -15,9 +15,9 @@ def get_clients():
         return jsonify ({'message: There are no clients registred'}), 200 
     return jsonify ([clients.serialize() for clients in client])
 
-@client.route('/api/client/<int:id_client>') #We access a client through their ID.
+@client.route('/api/clients/<int:id_client>') #We access a client through their ID.
 def get_client_id(id_client):
-    client = Client.query.get_or_404(id_client)
+    client = Client.query.get(id_client)
     if not client:
         return jsonify({'message': 'Client not found'}), 404
     return jsonify(client.serialize()), 200
@@ -47,8 +47,8 @@ def add_client():
         print(f"Date received: {data}")
 
         new_client = Client(
-            data['name'],
             data['rut'],
+            data['name'],
             data['street_address'],
             data['number_address'],
             data['district_address'],
@@ -99,18 +99,17 @@ def delete_client(id_client):
         db.session.rollback()
         return jsonify ({'error': str(e)})
 
-@client.route('/api/clients/<int:id_client>', methods = ['PUT'])
-
+@client.route('/api/clients/<int:id_client>', methods=['PUT'])
 def edit_client(id_client):
     data = request.get_json()
-    if not data:
-        return jsonify({'error': 'No data received'},400)
-    
     client = Client.query.get(id_client)
+    
+    required_fields = ['name','district_address','rut','street_address','number_address','city_address']
+    if not data:
+        return jsonify({'error': 'No data received'}, 400)
     if not client:
         return jsonify({'message': 'client not found'}), 404
     
-    required_fields = ['name','district_address','rut','street_address','number_address','city_address']
     
     for field in required_fields:
         if not str(data.get(field,'')).strip():
@@ -130,7 +129,7 @@ def edit_client(id_client):
             if 'city_address' in data :
                 client.city_address = data['city_address']
             db.session.commit()
-            return jsonify({'message': 'Client update correctly','car': client.serialize()}), 200
+            return jsonify({'message': 'Client update correctly'}), 200
         
         except IntegrityError as e: 
             db.session.rollback()
@@ -142,41 +141,56 @@ def edit_client(id_client):
             db.session.rollback
             return jsonify ({'error': str(e)}), 500
 
-@client.route('/api/clients/<int:id_client>', methods = ['PATCH'])
 
+@client.route('/<int:id_client>', methods=['PATCH'])
 def update_client(id_client):
     data = request.get_json()
-    
-    if not data : 
-        return jsonify ({'error': 'No data received'}), 400 
-    client = Client.query.get(id_client)
-    
-    if not client: 
-        return jsonify ({'message': 'Client not found'}), 404
-    
-    try: 
-        if 'name' in data:
-                client.name = data['name']
-        if 'district_address' in data:
-                client.district_address = data ['district_address']
-        if 'street_address' in data :
-                client.street_address = data ['street_address']
-        if 'number_address' in data:
-                client.number_address = data ['number_address']
-        if 'city_address' in data :
-                client.city_address = data['city_address']
-        db.session.commit()
-        return jsonify({'message': 'Client update correctly','car': client.serialize()}), 200
-    
-    except IntegrityError as e:
-            db.session.rollback()
-            error_msg = str(e.orig).lower()
 
-            if 'rut' in error_msg:
-                return jsonify({'error': 'The rut is allready registered'}), 400
-            else:
-                return jsonify({'error': 'Integrity constraint violated'}), 400
-            
+    if not data:
+        return jsonify({'error': 'No data received'}), 400
+
+    client_to_update = Client.query.get(id_client)  
+    if not client_to_update:
+        return jsonify({'message': 'client not found'}), 404
+
+    updated = False  # Variable para rastrear si se realizó alguna actualización
+
+    try:
+        if 'name' in data:
+            if str(data['name']).strip():
+                client_to_update.name = data['name']
+                updated = True
+        if 'rut' in data:
+            if str(data['rut']).strip():
+                client_to_update.rut = data['rut']
+                updated = True
+        if 'district_address' in data:
+            if str(data['district_address']).strip():
+                client_to_update.district_address = data['district_address']
+                updated = True
+        if 'street_address' in data:
+            if str(data['street_address']).strip():
+                client_to_update.street_address = data['street_address']
+                updated = True
+        if 'number_address' in data:
+            if str(data['number_address']).strip():
+                client_to_update.number_address = data['number_address']
+                updated = True
+        if 'city_address' in data:
+            if str(data['city_address']).strip():
+                client_to_update.city_address = data['city_address']
+                updated = True
+
+        if updated:
+            db.session.commit()
+            return jsonify({'message': 'Client updated correctly'}), 200
+        else:
+            return jsonify({'message': 'No valid data received for update'}), 400
+    except IntegrityError as e:
+        db.session.rollback()
+        error_msg = str(e.orig).lower()
+        if 'rut' in error_msg:
+            return jsonify({'error': 'The rut is already registered'}), 400
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500

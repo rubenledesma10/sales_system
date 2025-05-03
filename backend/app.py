@@ -2,11 +2,11 @@ from flask import Flask
 from config.config import DATABASE_CONNECTION_URI
 from models.db import db
 from routes.routes_product import product
-from routes.routes_client import client as client_bp  # Importa el Blueprint
+from routes.routes_client import client  # Importa el Blueprint
 
 app = Flask(__name__)
 app.register_blueprint(product)
-app.register_blueprint(client_bp)  # ¡Registra el Blueprint aquí!
+app.register_blueprint(client)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_CONNECTION_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
