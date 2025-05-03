@@ -9,7 +9,7 @@ Clone the repository:
 
 git clone https://github.com/tu-usuario/tu-repo.git
 
-1. Create a virtual environment:
+1. _Create a virtual environment:_
 
 On Windows:
 python -m venv <environment_name>
@@ -17,7 +17,7 @@ python -m venv <environment_name>
 On Linux/macOS:
 python3 -m venv <environment_name>
 
-1. Activate the virtual environment:
+2. _Activate the virtual environment:_
 
 On Windows:
 <environment_name>\Scripts\activate
@@ -25,13 +25,14 @@ On Windows:
 On Linux / macOS:
 source <environment_name>/bin/activate
 
-3. Install dependencies:
+3. _Install dependencies:_
 
 On Windows, Linux, and macOS:
 pip install -r requirements.txt
 
-4. Run the application:
+4. _Run the application:_
 
+```bash
 python app.py
 
 🧩 **Class Diagram**
