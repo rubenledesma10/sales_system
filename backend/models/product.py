@@ -27,4 +27,5 @@ class Product(db.Model):
             'stock': self.stock,
             'id_supplier': self.id_supplier,
             'id_category': self.id_category
+            
         }

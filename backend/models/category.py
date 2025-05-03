@@ -1,11 +1,14 @@
 from models.db import db
 
 class Category(db.Model):
+
+
     __tablename__ = 'category'
 
-    id_category = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.String(250), nullable=False)
+
+    id_category = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(50), nullable = False)
+    description = db.Column(db.String(250), nullable = False)
 
     products = db.relationship('Product', backref='category', lazy=True)
 

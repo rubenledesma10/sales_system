@@ -1,7 +1,9 @@
 from models.db import db
 
+
 class Client(db.Model):
     __tablename__ = 'client'
+
 
     id_client = db.Column(db.Integer, primary_key=True)
     rut = db.Column(db.String(50), nullable=False)
