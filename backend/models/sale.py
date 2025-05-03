@@ -1,30 +1,28 @@
-from models.db import db 
+from models.db import db
 
-class Sale(db.Model): 
-    __tablename__ ='sale'
+class Sale(db.Model):
+    __tablename__ = 'sale'
 
-    id_sale = db.column(db.Integer, primary_key = True)
-    sale_date = db.column(db.Date, nullable = False)
-    discount = db.column(db.Float, nullable = False)
-    final_amount = db.column(db.Float, nullable = True)
-    id_client = db.column(db.Integer, db.ForeignKey('client.id_client'))
-    
-    client = db.relationship("Client", backref=db.backref("sales", lazy=True))
-    
-    def __init__(self,sale_date,discount,final_amount):
+    id_sale = db.Column(db.Integer, primary_key=True)
+    sale_date = db.Column(db.Date, nullable=False)
+    discount = db.Column(db.Float, nullable=False)
+    final_amount = db.Column(db.Float, nullable=False)
+    id_client = db.Column(db.Integer, db.ForeignKey('client.id_client'), nullable=False)
+
+    sale_products = db.relationship('SaleProduct', backref='sale', lazy=True)
+
+    def __init__(self, sale_date, final_amount, id_client, discount):
         self.sale_date = sale_date
         self.discount = discount
-        self.final_amount = final_amount 
-        
-    def __repr__(self): #Realizamos el repr, representacion, para mostrar el id, la  fecha y el id del cliente que realizo la venta.
-        return f"<Sale(id_sale={self.id_sale}, sale_date={self.sale_date}, client_id={self.id_client})>"
+        self.final_amount = final_amount
+        self.id_client = id_client
 
-    def serialize (self):
-        return
-        {
+    def serialize(self):
+        return {
             'id_sale': self.id_sale,
-            'sale_date': self.sale_date.strftime(%d%m%Y), #Asi formateamos y detallamos la fecha con el anio,el horario y el mes.
+            'sale_date': self.sale_date.isoformat(), # Serialize date as ISO string
             'discount': self.discount,
             'final_amount': self.final_amount,
-            'id_client': self.id_client
+            'id_client': self.id_client,
+            'sale_products': [sp.serialize() for sp in self.sale_products]
         }
