@@ -1,0 +1,10 @@
+[
+  { "rut": "20-11111111-1", "name": "Juan Pérez", "street_address": "Calle Falsa", "number_address": "123", "district_address": "Barrio Centro", "city_address": "Buenos Aires" },
+  { "rut": "27-22222222-2", "name": "María Gómez", "street_address": "Avenida Siempreviva", "number_address": "456", "district_address": "Barrio Norte", "city_address": "Córdoba" },
+  { "rut": "30-33333333-3", "name": "Carlos López", "street_address": "Pasaje Olivo", "number_address": "789", "district_address": "Barrio Sur", "city_address": "Rosario" }
+]
+
+
+
+
+  

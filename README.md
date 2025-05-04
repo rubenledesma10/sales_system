@@ -1,1 +1,80 @@
-# sales_system
+**System Sales**
+
+
+System Sales is a RESTful API developed for sales system management. It allows you to manage sales, clients, products, phones, suppliers, and categories, providing complete CRUD operations with their respective relationships for each entity.
+Base URL: http://localhost:5000/api
+
+▶️ **Instructions to Run the Project**
+1. _Clone the repository:_
+
+`
+git clone https://github.com/tu-usuario/tu-repo.git`
+
+
+2. _Create a virtual environment:_
+
+  On Windows:
+`
+python -m venv <environment_name>`
+
+
+  On Linux/macOS:
+`
+python3 -m venv <environment_name>`
+
+
+3. _Activate the virtual environment:_
+
+  On Windows:
+`
+<environment_name>\Scripts\activate`
+
+  On Linux / macOS:
+`
+source <environment_name>/bin/activate`
+
+
+4. _Install dependencies:_
+
+On Windows, Linux, and macOS:
+`
+pip install -r requirements.txt`
+
+
+5. _Run the application:_
+
+`python3 -m venv <nombre_del_entorno`
+
+
+🧩 **Class Diagram**
+
+
+![Class Diagram](docs/Sistema%20de%20ventas.drawio.png)
+
+
+📄 **Documentation**
+
+You can access the full documentation and test the endpoints via the following Postman link:
+👉 [Documentation](https://documenter.getpostman.com/view/31369461/2sB2j689Yf)
+
+🧑‍💻 **Team Members and Contributions**
+
+Ruben Ledesma: Development of sale product and product entities with their routes.
+
+Rodrigo Espinosa: Development of the supplier entity with its route.
+
+Santiago Romano: Development of client and sale entities with their routes.
+
+Santiago Puebla: Development of phone and category entities with their routes.
+
+🛠️ **Technologies and Tools Used**
+
+Flask 🔥
+
+MySQL 🐬
+
+MySQL Workbench 🧰
+
+Git & GitHub 🔧
+
+Postman 📬
