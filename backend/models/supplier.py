@@ -1,5 +1,5 @@
 from models.db import db
-from models.product import Product
+#from models.product import Product
 
 class Supplier(db.Model):
     __tablename__ = 'supplier'
