@@ -1,5 +1,5 @@
 from models.db import db
-from models.supplier import Supplier
+#from models.supplier import Supplier
 from models.category import Category
 
 class Product(db.Model):
